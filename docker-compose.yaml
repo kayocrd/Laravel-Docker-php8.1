@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: php:8.1.0-apache
+    container_name: app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    ports:
+      - "8080:80"
+    # - "443:443"
+    volumes:
+      - ./application/:/var/www/html
+      - ./.docker/php/php-ini-overrides.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./.docker/php/logs:/usr/local/apache2/logs
+
+  database:
+    image: postgres:12
+    container_name: siclinic-db
+    restart: unless-stopped
+    expose:
+      - 5432
+    ports:
+      - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DATABASE=siclinic
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+networks:
+  network:
+    name: siclinic
+    driver: bridge
+
+volumes:
+  dbdata: null
