@@ -32,6 +32,19 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
+  mysql:
+      image: mariadb:10.4
+      container_name: mysql-db
+      ports:
+        - "3306:3306"
+      volumes:
+        - mysqldata:/var/lib/mysql
+      environment:
+        - MYSQL_ROOT_PASSWORD=qwe123
+        - MYSQL_DATABASE=siclinic
+
+      
+
 networks:
   network:
     name: siclinic
@@ -39,3 +52,4 @@ networks:
 
 volumes:
   dbdata: null
+  mysqldata: 
