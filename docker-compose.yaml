@@ -33,17 +33,23 @@ services:
       - POSTGRES_PASSWORD=postgres
 
   mysql:
-      image: mariadb:10.4
-      container_name: mysql-db
-      ports:
-        - "3306:3306"
-      volumes:
-        - mysqldata:/var/lib/mysql
-      environment:
-        - MYSQL_ROOT_PASSWORD=qwe123
-        - MYSQL_DATABASE=siclinic
+    image: mariadb:10.4
+    container_name: mysql-db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysqldata:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=qwe123
+      - MYSQL_DATABASE=siclinic
 
-      
+  redis:
+    image: redis
+    container_name: redis
+    volumes:
+      - redis:/usr/local/etc/redis/redis.conf
+    ports:
+      - "6379"
 
 networks:
   network:
@@ -52,4 +58,5 @@ networks:
 
 volumes:
   dbdata: null
-  mysqldata: 
+  mysqldata: null
+  redis: null
